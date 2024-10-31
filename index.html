@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja Strona</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        .button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .hidden-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: none; /* Przyciski są ukryte */
+        }
+        .earth {
+            position: absolute;
+            right: 50%;
+            transform: translate(50%, -50%);
+            width: 100px;
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button class="button">Przycisk 1</button>
+        <button class="button">Przycisk 2</button>
+    </div>
+    <button class="hidden-button">Ukryty Przycisk</button>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Earth_%28Bing%29.png" alt="Ziemia" class="earth">
+</body>
+</html>
