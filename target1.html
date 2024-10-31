@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About me</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: center; /* Center horizontally */
+            flex-direction: column; /* Stack elements vertically */
+            height: 100vh;
+            background: #000; /* Black background */
+        }
+        .fade-in-image {
+            opacity: 0; /* Initially hidden */
+            transition: opacity 2s ease-in; /* Smooth transition for fade-in */
+            max-width: 100%; /* Scale image width */
+            max-height: 100%; /* Scale image height */
+            margin-bottom: 20px; /* Space between image and button */
+        }
+        .go-back-button {
+            background: none; /* No background */
+            border: none; /* No border */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        .go-back-button img {
+            width: 100px; /* Adjust button image width */
+            height: auto; /* Maintain aspect ratio */
+            transition: transform 0.2s; /* Smooth transition for scaling */
+        }
+        .go-back-button img:hover {
+            transform: scale(1.1); /* Slightly enlarge on hover */
+        }
+    </style>
+</head>
+<body>
+
+<img src="target1.png" alt="Sample Image" class="fade-in-image" id="fadeImage">
+
+<button class="go-back-button" id="goBackButton">
+    <img src="goback.png" alt="Go Back Button">
+</button>
+
+<script>
+    // Wait for the window to load before fading in the image
+    window.onload = function() {
+        const fadeImage = document.getElementById('fadeImage');
+        fadeImage.style.opacity = '1'; // Fade in the image
+    };
+
+    // Go back button functionality
+    document.getElementById('goBackButton').addEventListener('click', function() {
+        window.location.href = 'index.html'; // Navigate to index.html
+    });
+</script>
+
+</body>
+</html>

@@ -1,58 +1,194 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Strona</title>
+    <title>AsianTheProtogen's site ^^</title>
     <style>
         body {
-            background-color: black;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            margin: 0;
             overflow: hidden;
-            position: relative;
+            background: #000; /* Black background */
+            display: flex;
+            align-items: center; /* Center vertically */
+            justify-content: flex-start; /* Align items to the left */
+            height: 100vh;
+            position: relative; /* To position the text at the bottom */
+        }
+        .blob {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #66ccff;
+            border-radius: 50%;
+            filter: blur(8px);
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1s; /* Smooth transition for fade-in */
+        }
+        .buttons {
+            position: absolute; /* Absolute positioning for precise control */
+            left: 75%; /* Fixed position from the left */
+            top: 55%; /* Center vertically */
+            transform: translateY(-50%); /* Adjust to center the buttons */
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            align-items: center; /* Center buttons horizontally */
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1s; /* Smooth transition for fade-in */
         }
         .button {
-            background-color: blue;
-            color: white;
+            width: 300px; /* Display width for the button */
+            height: 100px; /* Display height for the button */
+            background-size: cover; /* Ensures the image covers the button area */
             border: none;
-            padding: 15px 30px;
-            margin: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            transition: transform 0.1s;
+            outline: none; /* Remove focus outline */
+            margin: 5px 0; /* Spacing between buttons (top and bottom) */
         }
-        .hidden-button {
+        .info-text {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            display: none; /* Przyciski są ukryte */
+            bottom: 10px; /* Position the text at the bottom */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Adjust to center the text */
+            color: rgba(255, 255, 255, 0.05); /* Slightly visible white text */
+            font-size: 12px; /* Small font size */
         }
-        .earth {
+        .notification {
             position: absolute;
-            right: 50%;
-            transform: translate(50%, -50%);
-            width: 100px;
-            animation: spin 10s linear infinite;
-        }
-        @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            top: 50%; /* Center vertically */
+            left: 50%; /* Center horizontally */
+            transform: translate(-50%, -50%); /* Adjust to center */
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 18px; /* Font size */
+            opacity: 1; /* Initially visible */
+            transition: opacity 1s; /* Smooth transition for fade-out */
+            z-index: 10; /* On top of other elements */
         }
     </style>
 </head>
 <body>
-    <div class="buttons">
-        <button class="button">Przycisk 1</button>
-        <button class="button">Przycisk 2</button>
-    </div>
-    <button class="hidden-button">Ukryty Przycisk</button>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Earth_%28Bing%29.png" alt="Ziemia" class="earth">
+
+<div class="notification" id="notification">
+    this site was made for fun and can be considered as unfinished. interact to acknowledge :]
+</div>
+
+<div class="buttons" id="buttons">
+    <button class="button" id="button1" style="background-image: url('button1_var1.png');"></button>
+    <button class="button" id="button2" style="background-image: url('button2_var1.png');"></button>
+</div>
+
+<div class="info-text">Might be broken on odd or small screens :p</div>
+
+<script>
+    const blobCount = 3; // Number of blobs in the circular snake
+    const blobs = [];
+    const centerX = window.innerWidth / 1.80; // Center the circle based on window width
+    const centerY = window.innerHeight / 32; // Center the circle vertically in the window
+
+    // Create blobs and add to the document
+    for (let i = 0; i < blobCount; i++) {
+        const blob = document.createElement("div");
+        blob.classList.add("blob");
+        document.body.appendChild(blob);
+        blobs.push(blob);
+    }
+
+    let angleOffset = 0;
+
+    function animateBlobs() {
+        blobs.forEach((blob, index) => {
+            // Calculate the angle for each blob in the circular motion
+            const angle = (index / blobCount) * (2 * Math.PI) + angleOffset;
+            const radius = 80 + index * 5; // Increase radius for each blob to create a trailing effect
+
+            // Calculate blob position based on circular motion
+            const x = centerX + radius * Math.cos(angle);
+            const y = centerY + radius * Math.sin(angle);
+
+            // Apply position for circular motion
+            blob.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // Increment angle offset to make blobs rotate
+        angleOffset += 0.02;
+        requestAnimationFrame(animateBlobs);
+    }
+
+    animateBlobs();
+
+    // Sound effects
+    const hoverSound = new Audio('hover.mp3');
+    const clickSound = new Audio('click.mp3');
+
+    // Preload sounds
+    hoverSound.load();
+    clickSound.load();
+
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    const buttons = document.getElementById('buttons');
+    const notification = document.getElementById('notification');
+
+    // Function to fade out notification and show buttons
+    function showButtons() {
+        notification.style.opacity = '0'; // Fade out notification
+        setTimeout(() => {
+            notification.style.display = 'none'; // Hide notification
+            buttons.style.opacity = '1'; // Fade in buttons
+            // Show blobs after interaction
+            blobs.forEach(blob => {
+                blob.style.opacity = '1'; // Fade in blobs
+            });
+        }, 1000); // Match with the fade-out duration
+    }
+
+    // Function to handle button click and redirect
+    function handleButtonClick(targetUrl) {
+        buttons.style.opacity = '0'; // Fade out buttons
+        blobs.forEach(blob => {
+            blob.style.opacity = '0'; // Fade out blobs
+        });
+        setTimeout(() => {
+            window.location.href = targetUrl; // Redirect after fade-out
+        }, 1000); // Match with the fade-out duration
+    }
+
+    // Listen for any user interaction to trigger showButtons
+    document.addEventListener('click', showButtons);
+    document.addEventListener('keydown', showButtons);
+
+    // Button 1 hover events
+    button1.addEventListener('mouseenter', () => {
+        button1.style.backgroundImage = "url('button1_var2.png')"; // Change to hover state
+        hoverSound.currentTime = 0; // Reset sound to start
+        hoverSound.play();
+    });
+    button1.addEventListener('mouseleave', () => {
+        button1.style.backgroundImage = "url('button1_var1.png')"; // Change back to default state
+    });
+    button1.addEventListener('click', () => {
+        clickSound.currentTime = 0; // Reset sound to start
+        clickSound.play();
+        handleButtonClick('target1.html'); // Replace with the target HTML file for Button 1
+    });
+
+    // Button 2 hover events
+    button2.addEventListener('mouseenter', () => {
+        button2.style.backgroundImage = "url('button2_var2.png')"; // Change to hover state
+        hoverSound.currentTime = 0; // Reset sound to start
+        hoverSound.play();
+    });
+    button2.addEventListener('mouseleave', () => {
+        button2.style.backgroundImage = "url('button2_var1.png')"; // Change back to default state
+    });
+    button2.addEventListener('click', () => {
+        clickSound.currentTime = 0; // Reset sound to start
+        clickSound.play();
+        handleButtonClick('target2.html'); // Replace with the target HTML file for Button 2
+    });
+</script>
+
 </body>
 </html>
